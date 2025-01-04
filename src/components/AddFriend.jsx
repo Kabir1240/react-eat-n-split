@@ -2,29 +2,33 @@ import { useState } from "react"
 
 const AddFriend = ({ onAddFriend }) => {
     const [friendName, setFriendName] = useState("");
-    const [friendImage, setFriendImage] = useState("");
+    const [friendImage, setFriendImage] = useState("https://i.pravatar.cc/48");
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        const newFriend = {id: new Date(), name: friendName, image:friendImage, balance:0}
-        onAddFriend((friends) => [...friends, newFriend])
+
+        if (!friendName || !friendImage) return;
+
+        const id = crypto.randomUUID()
+        const newFriend = { id: id, 
+                            name: friendName, 
+                            image:`${friendImage}?=${id}`, 
+                            balance:0}
+
+        onAddFriend(newFriend)
 
         // Reset
         setFriendName("")
-        setFriendImage("")
+        setFriendImage("https://i.pravatar.cc/48")
     }
 
     return (
         <form className="form-add-friend" onSubmit={handleSubmit}>
-            <div>
-                <span>🧑‍🤝‍🧑 Friend Name: </span>
-                <input value={friendName} onChange={(e) => setFriendName(e.target.value)}></input>
-            </div>
+            <label>🧑‍🤝‍🧑 Friend Name: </label>
+            <input type="text" value={friendName} onChange={(e) => setFriendName(e.target.value)}></input>
 
-            <div>
-                <span>🌄 Image URL: </span>
-                <input value={friendImage} onChange={(e) => setFriendImage(e.target.value)}></input>
-            </div>
+            <label>🌄 Image URL: </label>
+            <input type="text" value={friendImage} onChange={(e) => setFriendImage(e.target.value)}></input>
 
             <button className="button">Add</button>
         </form>
