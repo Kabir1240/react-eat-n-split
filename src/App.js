@@ -72,7 +72,8 @@ const App = () => {
       {selectedFriend && 
         <SplitBill 
           selectedFriend={selectedFriend} 
-          onSplitBill={handleSplitBill} 
+          onSplitBill={handleSplitBill}
+          key={selectedFriend.id}
         />}
 
     </div>
